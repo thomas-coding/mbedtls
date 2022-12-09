@@ -1164,7 +1164,7 @@
  * \warning This interface is experimental and may change or be removed
  * without notice.
  */
-#define MBEDTLS_PSA_CRYPTO_BUILTIN_KEYS
+//#define MBEDTLS_PSA_CRYPTO_BUILTIN_KEYS
 
 /** \def MBEDTLS_PSA_CRYPTO_CLIENT
  *
@@ -1230,7 +1230,7 @@
  *
  * \note This option is experimental and may be removed without notice.
  */
-//#define MBEDTLS_PSA_CRYPTO_EXTERNAL_RNG
+#define MBEDTLS_PSA_CRYPTO_EXTERNAL_RNG
 
 /**
  * \def MBEDTLS_PSA_CRYPTO_SPM
