@@ -69,9 +69,54 @@ void sha256_test(void) {
 
 }
 
+void sha256_test2(void) {
+    psa_status_t status;
+    psa_algorithm_t alg = PSA_ALG_SHA_256;
+    const size_t hash_size = PSA_HASH_LENGTH(alg);
+    psa_hash_operation_t operation = PSA_HASH_OPERATION_INIT;
+
+    unsigned char actual_hash[hash_size];
+    size_t actual_hash_len;
+
+    /* Initialize PSA Crypto */
+    status = psa_crypto_init();
+    if (status != PSA_SUCCESS) {
+        printf("Failed to initialize PSA Crypto\n");
+        return;
+    }
+
+    /* Compute hash of message  */
+    status = psa_hash_setup(&operation, alg);
+    if (status != PSA_SUCCESS) {
+        printf("Failed to begin hash operation\n");
+        return;
+    }
+
+    status = psa_hash_update(&operation, sha256_msg, sizeof(sha256_msg));
+    if (status != PSA_SUCCESS) {
+        printf("Failed to update hash operation\n");
+        return;
+    }
+
+    status = psa_hash_verify(&operation, sha256_digest, sizeof(sha256_digest));
+    if (status != PSA_SUCCESS) {
+        printf("Failed to verify hash\n");
+        return;
+    }
+
+    printf(GREEN"[%s] SUCCESS\n"COLOR_NONE, __func__);
+
+    /* Clean up hash operation context */
+    psa_hash_abort(&operation);
+
+    mbedtls_psa_crypto_free();
+
+}
+
 void crypto_hash_test(void) {
 	//mbedtls_md5_self_test(1);	
 #if CONFIG_HASH_SHA256 == 1
     sha256_test();
+    sha256_test2();
 #endif
 }
