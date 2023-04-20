@@ -15,4 +15,6 @@
 
 #define CONFIG_HASH_SHA256   1
 
+#define CONFIG_AES_CBC   1
+
 #endif /*CRYPTO_CONFIG_H_*/

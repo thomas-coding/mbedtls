@@ -58,9 +58,9 @@ void sha256_test(void) {
     memory_hex_dump("hashed message", actual_hash, hash_size);
     status =  hex_compare(actual_hash, sha256_digest, hash_size);
     if (status < 0)
-        printf(RED"[%s] FAIL\n"COLOR_NONE, __func__);
+        printf(RED"[%-50s] FAIL\n"COLOR_NONE, __func__);
     else
-        printf(GREEN"[%s] SUCCESS\n"COLOR_NONE, __func__);
+        printf(GREEN"[%-50s] SUCCESS\n"COLOR_NONE, __func__);
 
     /* Clean up hash operation context */
     psa_hash_abort(&operation);
@@ -104,7 +104,7 @@ void sha256_test2(void) {
         return;
     }
 
-    printf(GREEN"[%s] SUCCESS\n"COLOR_NONE, __func__);
+    printf(GREEN"[%-50s] SUCCESS\n"COLOR_NONE, __func__);
 
     /* Clean up hash operation context */
     psa_hash_abort(&operation);
