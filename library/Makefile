@@ -1,7 +1,10 @@
 
 # Also see "include/mbedtls/mbedtls_config.h"
-
-CFLAGS	?= -O2
+ifdef DEBUG
+CFLAGS ?= -O0
+else
+CFLAGS ?= -O2
+endif
 WARNING_CFLAGS ?=  -Wall -Wextra -Wformat=2 -Wno-format-nonliteral
 LDFLAGS ?=
 

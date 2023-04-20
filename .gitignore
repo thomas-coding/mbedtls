@@ -57,3 +57,7 @@ massif-*
 /TAGS
 /cscope*.out
 /tags
+
+# vendor test
+tests/crypto/ctest
+tests/crypto/ctest.asm
