@@ -11,6 +11,7 @@
 #include "crypto_util.h"
 #include "crypto_hash_test.h"
 #include "crypto_aes_test.h"
+#include "crypto_rsa_test.h"
 
 int main(void)
 {
@@ -20,6 +21,7 @@ int main(void)
 
 	crypto_hash_test();
 	crypto_aes_test();
+	crypto_rsa_test();
 
 	printf("\n");
 	printf("=== Crypto Test End ===\n");

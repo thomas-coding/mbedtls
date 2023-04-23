@@ -8,6 +8,13 @@
 #define CRYPTO_DATA_H_
 #include <stdint.h>
 
+/* Type for Hex parameters */
+typedef struct data_tag
+{
+    uint8_t * x;
+    uint32_t  len;
+} data_t;
+
 extern uint8_t aes_ecb_128_key[16];
 extern uint8_t aes_ecb_128_plaintext[16];
 extern uint8_t aes_ecb_128_ciphertext[16];
@@ -123,4 +130,7 @@ extern uint8_t ecdsa_p256_d[32];
 extern uint8_t ecdsa_p256_qx[32];
 extern uint8_t ecdsa_p256_qy[32];
 extern uint8_t ecdsa_message[128];
+
+extern data_t rsa_2048_keypair_data;
+extern data_t rsa_2048_public_data;
 #endif /*CRYPTO_DATA_H_*/
