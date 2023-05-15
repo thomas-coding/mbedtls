@@ -10,7 +10,6 @@
 /* debug */
 #define CONFIG_HEX_DUMP    0
 
-/* hash */
 #define CONFIG_HASH_SHA1   1
 
 #define CONFIG_HASH_SHA256   1
@@ -18,5 +17,7 @@
 #define CONFIG_AES_CBC   1
 
 #define CONFIG_RSA    1
+
+#define CONFIG_ECC    1
 
 #endif /*CRYPTO_CONFIG_H_*/

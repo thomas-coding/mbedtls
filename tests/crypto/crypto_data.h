@@ -133,4 +133,7 @@ extern uint8_t ecdsa_message[128];
 
 extern data_t rsa_2048_keypair_data;
 extern data_t rsa_2048_public_data;
+
+extern data_t ecc_secp192r1_key_data;
+extern data_t ecc_secp192r1_public_key_data;
 #endif /*CRYPTO_DATA_H_*/
