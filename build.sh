@@ -17,6 +17,7 @@ gcc -g -static -o tests/crypto/ctest tests/crypto/ctest.c \
     tests/crypto/crypto_aes_test.c \
     tests/crypto/crypto_rsa_test.c \
     tests/crypto/crypto_ecc_test.c \
+    tests/crypto/crypto_hmac_test.c \
 	-L ${shell_folder}/library -lmbedcrypto -lmbedx509 -lmbedtls \
 	-I ${shell_folder}/include
 

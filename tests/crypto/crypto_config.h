@@ -20,4 +20,6 @@
 
 #define CONFIG_ECC    1
 
+#define CONFIG_HMAC    1
+
 #endif /*CRYPTO_CONFIG_H_*/
