@@ -140,4 +140,10 @@ extern data_t ecc_secp192r1_public_key_data;
 extern data_t hmac_key_data;
 extern data_t hmac_message_data;
 extern data_t hmac_sha256_expected_data;
+
+extern data_t chacha20_poly1305_key_data;
+extern data_t chacha20_poly1305_nonce_data;
+extern data_t chacha20_poly1305_additional_data;
+extern data_t chacha20_poly1305_plaintext_data;
+extern data_t chacha20_poly1305_ciphertext_data;
 #endif /*CRYPTO_DATA_H_*/

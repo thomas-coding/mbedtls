@@ -22,4 +22,6 @@
 
 #define CONFIG_HMAC    1
 
+#define CONFIG_CHACHAPOLY    1
+
 #endif /*CRYPTO_CONFIG_H_*/

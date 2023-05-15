@@ -14,6 +14,7 @@
 #include "crypto_rsa_test.h"
 #include "crypto_ecc_test.h"
 #include "crypto_hmac_test.h"
+#include "crypto_chachapoly_test.h"
 
 int main(void)
 {
@@ -26,6 +27,7 @@ int main(void)
 	crypto_rsa_test();
 	crypto_ecc_test();
 	crypto_hmac_test();
+	crypto_chachapoly_test();
 
 	printf("\n");
 	printf("=== Crypto Test End ===\n");
