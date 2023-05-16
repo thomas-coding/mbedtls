@@ -15,6 +15,7 @@
 #include "crypto_util.h"
 #include "crypto_aes_test.h"
 #include "psa/crypto.h"
+#include <string.h>
 
 void aes_cbc_encrypt_test(void) {
 
@@ -176,9 +177,97 @@ void aes_cbc_decrypt_test(void) {
     mbedtls_psa_crypto_free();
 }
 
+void aes_xts_encrypt_test(void) {
+
+    enum {
+        block_size = PSA_BLOCK_CIPHER_BLOCK_LENGTH(PSA_KEY_TYPE_AES),
+    };
+    psa_status_t status;
+    psa_key_attributes_t attributes = PSA_KEY_ATTRIBUTES_INIT;
+    psa_algorithm_t alg = PSA_ALG_XTS;
+    uint8_t output[block_size];
+    size_t output_len;
+    size_t total_output_len = 0;
+    psa_key_id_t key_id;
+    psa_cipher_operation_t operation = PSA_CIPHER_OPERATION_INIT;
+
+    uint8_t raw_key[16 * 2];
+    memcpy(raw_key, aes_xts_128_key1, 16);
+    memcpy(raw_key + 16, aes_xts_128_key2, 16);
+
+    /* Initialize PSA Crypto */
+    status = psa_crypto_init();
+    if (status != PSA_SUCCESS)
+    {
+        printf("Failed to initialize PSA Crypto\n");
+        return;
+    }
+
+    /* Import a key */
+    psa_set_key_usage_flags(&attributes, PSA_KEY_USAGE_ENCRYPT);
+    psa_set_key_algorithm(&attributes, alg);
+    psa_set_key_type(&attributes, PSA_KEY_TYPE_AES);
+    psa_set_key_bits(&attributes, 128 * 2);
+    status = psa_import_key(&attributes, raw_key, sizeof(raw_key), &key_id);
+    if (status != PSA_SUCCESS) {
+        printf("Failed to import a key\n");
+        return;
+    }
+    psa_reset_key_attributes(&attributes);
+
+    /* Encrypt the plaintext */
+    /* https://github.com/Mbed-TLS/mbedtls/issues/6384 */
+    status = psa_cipher_encrypt_setup(&operation, key_id, alg);
+    if (status != PSA_SUCCESS) {
+        printf("Failed to begin cipher operation %d\n", status);
+        return;
+    }
+
+    //status = psa_cipher_generate_iv(&operation, iv, sizeof(iv), &iv_len);
+    status = psa_cipher_set_iv(&operation, aes_xts_128_iv, sizeof(aes_xts_128_iv));
+    if (status != PSA_SUCCESS) {
+        printf("Failed to set IV\n");
+        return;
+    }
+
+    status = psa_cipher_update(&operation, aes_xts_128_plaintext, sizeof(aes_xts_128_plaintext),
+                               output, sizeof(output), &output_len);
+    if (status != PSA_SUCCESS) {
+        printf("Failed to update cipher operation\n");
+        return;
+    }
+    total_output_len += output_len;
+
+    status = psa_cipher_finish(&operation, output + output_len,
+                               sizeof(output) - output_len, &output_len);
+    if (status != PSA_SUCCESS) {
+        printf("Failed to finish cipher operation\n");
+        return;
+    }
+    total_output_len += output_len;
+
+    memory_hex_dump("aes xts encrypted data", output, total_output_len);
+    status =  hex_compare(output, aes_xts_128_ciphertext, total_output_len);
+    if (status < 0)
+        printf(RED"[%-50s] FAIL\n"COLOR_NONE, __func__);
+    else
+        printf(GREEN"[%-50s] SUCCESS\n"COLOR_NONE, __func__);
+
+    /* Clean up cipher operation context */
+    psa_cipher_abort(&operation);
+
+    /* Destroy the key */
+    psa_destroy_key(key_id);
+
+    mbedtls_psa_crypto_free();
+
+}
+
 void crypto_aes_test(void) {
-#if CONFIG_AES_CBC == 1
+#if CONFIG_AES == 1
     aes_cbc_encrypt_test();
     aes_cbc_decrypt_test();
+    /* AES XTS NOT SUPPORT */
+    //aes_xts_encrypt_test();
 #endif
 }
